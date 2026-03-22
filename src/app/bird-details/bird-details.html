@@ -1,0 +1,9 @@
+@if (bird$ | async; as bird) {
+  <h1>{{ bird.name }}</h1>
+  <p [innerHtml]="bird.description"></p>
+  @if (bird.photoUrl) {
+    <img [src]="bird.photoUrl" with="200" height="200" />
+  }
+} @else {
+  <p>Les détails de cet oiseau n'ont pas pu être récupérés.</p>
+}

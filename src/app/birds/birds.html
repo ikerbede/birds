@@ -1,0 +1,15 @@
+<section class="bird-list-container">
+  <ul>
+    @for (bird of birds(); track bird.id) {
+      <li [class.active]="bird.id === selectedBird()?.id" (click)="showDetails(bird)">
+        <p>{{ bird.name }}</p>
+        <p>{{ bird.viewCount ?? 0 }} observations</p>
+      </li>
+    }
+  </ul>
+</section>
+<section class="selected-bird-container">
+  @if (selectedBird(); as selectedBird) {
+    <app-bird-details [bird]="selectedBird"></app-bird-details>
+  }
+</section>
