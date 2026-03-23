@@ -1,59 +1,50 @@
-# Birds
+# Oiseaux observés sur la zone du BAB
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+## Consignes
 
-## Development server
+### Objectif
 
-To start a local development server, run:
+Le but de ce mini projet est d'afficher une liste filtrable d'oiseaux observés sur la zone du BAB, où un clic sur un oiseau de la liste permet d'afficher les détails de cet oiseau.
 
-```bash
-ng serve
+La structure d'application finale attendue doit correspondre à :
+
+```txt
+- app
+  - bird-details // composant d'affichage des détails d'un oiseau
+  - birds // composant d'affichage de la liste d'oiseaux
+  - filters // composant de formulaire de recherche d'oiseaux
+  - models // interfaces/types dédiés à la représentation des données relatives aux oiseaux
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Etapes
 
-## Code scaffolding
+1. Dans un composant `birds`, récupérer les données sur les oiseaux observés en faisant un HTTP GET sur le fichier `public/birds.data.json` et afficher les résultats dans une liste sur la moitié gauche de la page tels que :
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+```txt
+-------------------------
+| <nom_oiseau_1>        |
+| <nombre_observations> |
+-------------------------
 
-```bash
-ng generate component component-name
+-------------------------
+| <nom_oiseau_2>        |
+| <nombre_observations> |
+-------------------------
+
+etc...
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Pour ce faire, il faudra ajouter un nouveau type `Bird` exporté dans un fichier `models/bird.ts` traduisant les données à manipuler.
 
-```bash
-ng generate --help
-```
+2. Dans la moitié droite du composant `birds`, insérer un nouveau composant `birds-details` qui prendra un `Bird` en input et affichera son nom dans un titre `h2` dans un premier temps.
 
-## Building
+3. Ajouter au type `Bird` les propriétés de détails `description` et `photoUrl` (optionnelle). Puis, dans le compsant `bird-details`, exécuter un appel HTTP GET sur l'endpoint relatif aux détails d'un oiseau (cf. Bird API ci-dessous) relatif à l'oiseau passé en input.
 
-To build the project run:
+4. Ajouter un composant `filters` comprenant un input de type texte pour filtrer les oiseaux par leur nom. Faire émettre un output sur ce composant lorsque l'input change. Insérer ce composant dans le composant App et effectuer le filtrage de la liste.
 
-```bash
-ng build
-```
+## Bird API
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Endpoint bird-details : `https://oiseauxdefrance.org/taxhub/api/bibnoms/taxoninfo/<bird_id>`
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **description** : `data.attributs.find(attr => attr.nom_attribut === 'description').valeur_attribut`
+- **photo** : `data.medias.find(attr => attr.nom_type_media === 'Photo').url`
